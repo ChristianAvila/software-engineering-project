@@ -1,0 +1,20 @@
+#!/bin/bash
+# 
+# Autor: Christian Daniel Avila Sánchez
+# June 22th 2014
+# Upload a json file to database test
+# Arg[1] = json file to load to dabase
+#
+
+log="InsertLog"
+date > $log
+
+echo "Reading file... " $1
+while read line           
+do      
+    curl -X POST -d @chris  http://127.0.0.1:5984/test -H "Content-Type: application/json" >> $log
+done < $1
+
+date >> $log
+
+echo "Finish, time to relax"

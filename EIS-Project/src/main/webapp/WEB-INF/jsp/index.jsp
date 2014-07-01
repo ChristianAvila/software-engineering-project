@@ -91,21 +91,21 @@ d3.json("<%=request.getContextPath()%>/resources/world-50m.json", function(error
 quake();
 
 function quake() {
-    svg.append("circle")
-    .attr("cx", 300)
-    .attr("cy", 300)
-    .style("fill", "red")
-    .style("fill-opacity", 0.5)
-    .style("stroke", "red")
-    .style("stroke-opacity", 0.5)
-    .transition()
-       .duration(2000)
-       .ease(Math.sqrt)
-       .attr("r", 10)
-       .style("fill-opacity", 1e-6)
-       .style("stroke-opacity", 1e-6)
-       .remove()
-    setTimeout(quake, 2000);
+	svg.append("circle")
+	.attr("cx", 300)
+	.attr("cy", 300)
+	.style("fill", "red")
+	.style("fill-opacity", 0.5)
+	.style("stroke", "red")
+	.style("stroke-opacity", 0.5)
+	.transition()
+	   .duration(2000)
+	   .ease(Math.sqrt)
+	   .attr("r", 10)
+	   .style("fill-opacity", 1e-6)
+	   .style("stroke-opacity", 1e-6)
+	   .remove()
+	setTimeout(quake, 2000);
 }
 
 d3.select(self.frameElement).style("height", height + "px");

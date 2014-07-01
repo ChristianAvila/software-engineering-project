@@ -10,11 +10,13 @@ log="InsertLog"
 date > $log
 
 echo "Reading file... " $1
+
 while read line           
-do      
-    curl -X POST -d @chris  http://127.0.0.1:5984/test -H "Content-Type: application/json" >> $log
+do
+    echo $line > temp
+    curl -X POST http://127.0.0.1:5984/test -d @temp -H "Content-Type: application/json" >> $log
 done < $1
 
-date >> $log
+date >> $log	
 
-echo "Finish, time to relax"
+

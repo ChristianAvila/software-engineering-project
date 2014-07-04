@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AspectoTest {
 	
-	@After("execution(public * mx.itesm.chris.controller.TestController.holaMundoSpring(..))")
+	@After("execution(public * mx.itesm.chris.controller.TestController.startPath(..))")
 	public void arfterTestLoad(){
 			System.out.println("Warning: Aspecto cargado");
 	}

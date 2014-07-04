@@ -36,6 +36,7 @@ public class TestController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String startPath( HttpServletRequest req, Model model){
+		
 		//creates a couchdb session
 		Session dbSession = new Session("localhost", 5984);
 		String dbname = "test";

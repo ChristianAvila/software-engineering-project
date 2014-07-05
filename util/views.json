@@ -1,0 +1,12 @@
+{
+   "_id": "_design/test1",
+   "language": "javascript",
+   "views": {
+       "test1": {
+           "map": "function(doc) {\n\n  if (doc.year == 2001 && doc.reclat != '' && doc.reclong != ''){ \n\tvalue = (doc.reclat , doc.reclog, doc.name)\n\temit(null,value);\n    }\n}"
+       },
+       "test2": {
+           "map": "function(doc) {\n\n  if (doc.year && doc.reclat != '' && doc.reclong != ''){\n\temit(doc.year,doc);\n    }\n}"
+       }
+   }
+}

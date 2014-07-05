@@ -9,14 +9,18 @@
 log="InsertLog"
 date > $log
 
+echo "Create Data base"
+curl -X PUT http://127.0.0.1:5984/meteorite
+
 echo "Reading file... " $1
 
+echo "Inserting data..."
 while read line           
 do
     echo $line > temp
-    curl -X POST http://127.0.0.1:5984/test -d @temp -H "Content-Type: application/json" >> $log
+    curl -X POST http://127.0.0.1:5984/meteorite -d @temp -H "Content-Type: application/json" >> $log
 done < $1
 
-date >> $log	
+echo "Inserting data completed"
 
-
+date >> $log

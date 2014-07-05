@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<meta content="utf-8" http-equiv="encoding">  
 <style>
 
 body {
@@ -35,10 +36,16 @@ body {
 
 </style>
 <body>
+<div id="principal">
+<h2>Caida de meteoritos a lo largo del tiempo</h2>
+<form action="<%=request.getContextPath()%>/" method="GET">
+Año de consulta:<input type="text" name="year" id="year">
+<input type="submit">
+</form>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
-
+  <!-- Dependencies end-->
 <script>
 
 var width = 1100,
@@ -48,6 +55,8 @@ var projection = d3.geo.eckert4()
     .scale(200)
     .translate([width / 2, height / 2])
     .precision(.1);
+    
+var datag;
 
 var path = d3.geo.path()
     .projection(projection);
@@ -81,36 +90,45 @@ d3.json("<%=request.getContextPath()%>/resources/world-50m.json", function(error
       .datum(topojson.feature(world, world.objects.land))
       .attr("class", "land")
       .attr("d", path);
-
+  
   svg.insert("path", ".graticule")
       .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
       .attr("class", "boundary")
       .attr("d", path);
 });
 
-quake();
+d3.json("http://<%=request.getServerName()%>:<%=request.getServerPort()%><%=request.getContextPath()%>/getDataByYear${year}",function(error, data){
+    
+	datag = data;
+	dibujar(datag);
+});
 
-function quake() {
-	svg.append("circle")
-	.attr("cx", 300)
-	.attr("cy", 300)
-	.style("fill", "red")
-	.style("fill-opacity", 0.5)
-	.style("stroke", "red")
-	.style("stroke-opacity", 0.5)
-	.transition()
-	   .duration(2000)
-	   .ease(Math.sqrt)
-	   .attr("r", 10)
-	   .style("fill-opacity", 1e-6)
-	   .style("stroke-opacity", 1e-6)
-	   .remove()
-	setTimeout(quake, 2000);
+function dibujar(x){
+	
+	svg.selectAll("circle")
+    .data(x.rows.reverse())
+    .enter().append("circle")
+    .attr("cy",function(d) {
+        return 350 + parseFloat(d.value.reclat) * 1.8
+    })
+    .attr("cx",function(d) {
+        return  500 + parseFloat(d.value.reclong) * 2
+    })
+    .style("fill", "red")
+    .style("fill-opacity", 0.5)
+    .style("stroke", "red")
+    .style("stroke-opacity", 0.5)
+    .transition()
+    .duration(300000)
+    .ease(Math.sqrt)
+    .attr("r", 10)
+    .style("fill-opacity", 1e-6)
+    .style("stroke-opacity", 1e-6)
+    .remove()
+    .setTimeout(dibujar, 1000);
 }
 
-d3.select(self.frameElement).style("height", height + "px");
-
-
+dibujar(datag);
 </script>
-
-${mensaje}
+</div>
+Christian Daniel Avila Sánchez
